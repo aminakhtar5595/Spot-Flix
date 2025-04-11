@@ -19,9 +19,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.spotflix.ui.navigation.Screen
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     Column {
         Text(
             text = "Welcome Home",
@@ -43,7 +45,7 @@ fun HomeScreen() {
             verticalArrangement = Arrangement.Center
         ) {
         Button(
-            onClick = { },
+            onClick = { navController.navigate(Screen.Search.route) },
             shape = RoundedCornerShape(10.dp),
             contentPadding = PaddingValues(vertical = 15.dp),
             border = BorderStroke(1.5.dp, Color(0xFFe95f25)),
@@ -63,7 +65,7 @@ fun HomeScreen() {
         }
 
             Button(
-                onClick = { },
+                onClick = { navController.navigate(Screen.Favorite.route) },
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(vertical = 15.dp),
                 border = BorderStroke(1.5.dp, Color(0xFF4F7CCB)),
