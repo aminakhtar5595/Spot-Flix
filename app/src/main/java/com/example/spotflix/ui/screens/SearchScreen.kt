@@ -1,6 +1,7 @@
 package com.example.spotflix.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,10 +23,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen() {
+fun SearchScreen(navController: NavController) {
     Column {
         Row(
             modifier = Modifier
@@ -36,7 +38,8 @@ fun SearchScreen() {
                 imageVector = Icons.Filled.ArrowBack,
                 contentDescription = "Arrow Back",
                 modifier = Modifier
-                    .size(25.dp),
+                    .size(25.dp)
+                    .clickable { navController.popBackStack() },
                 tint = Color.White
             )
 
