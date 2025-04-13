@@ -10,7 +10,7 @@ import com.example.spotflix.ui.screens.SearchScreen
 @Composable
 fun AppNavGraph(navController: NavHostController) {
 
-    NavHost(navController = navController, startDestination = Screen.Home.route) {
+    NavHost(navController = navController, startDestination = Screen.Search.route) {
         composable(Screen.Home.route) { HomeScreen(navController) }
         composable(Screen.Search.route) { SearchScreen(navController) }
         composable(Screen.Favorite.route) {   }
