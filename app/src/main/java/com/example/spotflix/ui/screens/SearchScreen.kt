@@ -1,21 +1,26 @@
 package com.example.spotflix.ui.screens
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -24,12 +29,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.spotflix.ui.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,6 +96,7 @@ fun SearchScreen(navController: NavController) {
                     .padding(vertical = 20.dp)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Row (
                     verticalAlignment = Alignment.CenterVertically
@@ -104,16 +110,45 @@ fun SearchScreen(navController: NavController) {
                         modifier = Modifier.padding(horizontal = 5.dp),
                     ) {
                         Text(
-                            modifier = Modifier.padding(bottom = 5.dp),
                             text = "Little Man Town", style = TextStyle(fontWeight = FontWeight.SemiBold))
-                        Row {
+                        Row (
+                            modifier = Modifier.padding(vertical = 5.dp)
+                        ) {
                             Text(text = "5.8", style = TextStyle(fontSize = 13.sp))
                             Text(text = " | ", style = TextStyle(fontSize = 13.sp))
                             Text(text = "2022-05-11", style = TextStyle(fontSize = 13.sp))
                         }
+
+                        Surface(
+                            color = Color.Red,
+                            contentColor = Color.White,
+                            shape = RoundedCornerShape(10.dp),
+                            shadowElevation = 0.dp
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .clickable {  }
+                                    .padding(horizontal = 7.dp, vertical = 5.dp)
+                            ) {
+                                Text(
+                                    text = "Share",
+                                    style = TextStyle(
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                )
+                            }
+                        }
+
+
+
                     }
                 }
-                Text(text = "Fav Icon")
+                AsyncImage(
+                    model = "https://static.vecteezy.com/system/resources/thumbnails/019/040/388/small_2x/red-empty-heart-png.png",
+                    contentDescription = "Google Image",
+                    modifier = Modifier.size(18.dp)
+                )
             }
         }
 
