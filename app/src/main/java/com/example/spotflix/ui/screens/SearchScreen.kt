@@ -19,6 +19,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -34,11 +38,12 @@ import coil.compose.AsyncImage
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(navController: NavController) {
+    var searchText by remember { mutableStateOf("") }
     Column {
-        Row(
-            modifier = Modifier
-                .background(color = Color(0xFF4F7CCB))
-                .padding(20.dp)
+        Box(modifier = Modifier
+            .background(color = Color(0xFF4F7CCB))
+            .padding(20.dp)
+            .fillMaxWidth()
         ) {
             Icon(
                 imageVector = Icons.Filled.ArrowBack,
@@ -70,14 +75,14 @@ fun SearchScreen(navController: NavController) {
                 textStyle = TextStyle(
                     fontSize = 16.sp,
                 ),
-                value = "Search your movie",
+                value = searchText,
                 onValueChange = {  },
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent,
                     textColor = Color.Gray,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    placeholderColor = Color(0xFFE5E8EB)
+                    placeholderColor = Color.Gray
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -86,70 +91,74 @@ fun SearchScreen(navController: NavController) {
                 placeholder = { Text("Search your movie") },
             )
 
-            Row (
-                modifier = Modifier
-                    .padding(vertical = 15.dp)
-                    .border(width = 0.2.dp, color = Color.Gray, shape = RoundedCornerShape(10.dp))
-                    .shadow(elevation = 3.dp, shape = RoundedCornerShape(10.dp))
-                    .background(color = Color.White, shape = RoundedCornerShape(10.dp))
-                    .padding(15.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+            MovieCard(title = "Little Man Town", rating = "5.8", date = "2022-05-11", image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaBlEMlTddNboEvHUefVn0RkoJSGa0kvIXNQ&s")
+        }
+    }
+}
+
+@Composable
+fun MovieCard(title: String, rating: String, date: String, image: String) {
+    Row (
+        modifier = Modifier
+            .padding(vertical = 15.dp)
+            .border(width = 0.2.dp, color = Color.Gray, shape = RoundedCornerShape(10.dp))
+            .shadow(elevation = 3.dp, shape = RoundedCornerShape(10.dp))
+            .background(color = Color.White, shape = RoundedCornerShape(10.dp))
+            .padding(15.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Row (
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            AsyncImage(
+                model = image,
+                contentDescription = "Google Image",
+            )
+            Column (
+                modifier = Modifier.padding(horizontal = 10.dp),
             ) {
+                Text(
+                    text = title, style = TextStyle(fontWeight = FontWeight.SemiBold))
                 Row (
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier.padding(vertical = 5.dp)
                 ) {
-                    AsyncImage(
-                        model = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaBlEMlTddNboEvHUefVn0RkoJSGa0kvIXNQ&s",
-                        contentDescription = "Google Image",
-                    )
-                    Column (
-                        modifier = Modifier.padding(horizontal = 10.dp),
+                    Text(text = rating, style = TextStyle(fontSize = 13.sp))
+                    Text(text = " | ", style = TextStyle(fontSize = 13.sp))
+                    Text(text = date, style = TextStyle(fontSize = 13.sp))
+                }
+
+                Surface(
+                    color = Color.Red,
+                    contentColor = Color.White,
+                    shape = RoundedCornerShape(10.dp),
+                    shadowElevation = 0.dp
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .clickable { }
+                            .padding(horizontal = 7.dp, vertical = 5.dp)
+                        ,
                     ) {
                         Text(
-                            text = "Little Man Town", style = TextStyle(fontWeight = FontWeight.SemiBold))
-                        Row (
-                            modifier = Modifier.padding(vertical = 5.dp)
-                        ) {
-                            Text(text = "5.8", style = TextStyle(fontSize = 13.sp))
-                            Text(text = " | ", style = TextStyle(fontSize = 13.sp))
-                            Text(text = "2022-05-11", style = TextStyle(fontSize = 13.sp))
-                        }
-
-                        Surface(
-                            color = Color.Red,
-                            contentColor = Color.White,
-                            shape = RoundedCornerShape(10.dp),
-                            shadowElevation = 0.dp
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .clickable {  }
-                                    .padding(horizontal = 7.dp, vertical = 5.dp)
-                                ,
-                            ) {
-                                Text(
-                                    text = "Share",
-                                    style = TextStyle(
-                                        fontSize = 10.sp,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                )
-                            }
-                        }
-
-
-
+                            text = "Share",
+                            style = TextStyle(
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
                     }
                 }
-                AsyncImage(
-                    model = "https://static.vecteezy.com/system/resources/thumbnails/019/040/388/small_2x/red-empty-heart-png.png",
-                    contentDescription = "Google Image",
-                    modifier = Modifier.size(18.dp)
-                )
+
+
+
             }
         }
-
+        AsyncImage(
+            model = "https://static.vecteezy.com/system/resources/thumbnails/019/040/388/small_2x/red-empty-heart-png.png",
+            contentDescription = "Google Image",
+            modifier = Modifier.size(18.dp)
+        )
     }
 }
