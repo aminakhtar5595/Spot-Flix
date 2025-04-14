@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -66,8 +67,20 @@ fun DetailsScreen(navController: NavController) {
                 modifier = Modifier.size(150.dp)
             )
 
+            Text(text = "Little Man Town", style = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 16.sp), modifier = Modifier.padding(vertical = 5.dp))
 
+            Text(text = "5.8", style = TextStyle(fontWeight = FontWeight.SemiBold, color = Color.Red),)
+
+            Text(text = "2022-05-11", style = TextStyle(fontWeight = FontWeight.SemiBold, color = Color.Red), modifier = Modifier.padding(vertical = 5.dp))
         }
 
+        Column (
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+        ) {
+            Text(text = "Little Man Town", style = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 16.sp), modifier = Modifier.padding(bottom = 5.dp))
+            Text(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vestibulum cursus velit, at cursus sapien interdum sit amet. Nunc egestas quam et mauris vestibulum, eget fermentum urna fringilla. Cras sit amet auctor augue. Duis placerat, sapien nec pulvinar ultricies, augue est maximus magna, eleifend mattis turpis est quis erat. Quisque sed auctor elit, in accumsan augue. ", style = TextStyle(fontSize = 14.sp))
+        }
     }
 }
