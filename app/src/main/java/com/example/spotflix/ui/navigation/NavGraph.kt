@@ -4,15 +4,17 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.spotflix.ui.screens.DetailsScreen
 import com.example.spotflix.ui.screens.HomeScreen
 import com.example.spotflix.ui.screens.SearchScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController) {
 
-    NavHost(navController = navController, startDestination = Screen.Search.route) {
+    NavHost(navController = navController, startDestination = Screen.Details.route) {
         composable(Screen.Home.route) { HomeScreen(navController) }
         composable(Screen.Search.route) { SearchScreen(navController) }
+        composable(Screen.Details.route) { DetailsScreen(navController) }
         composable(Screen.Favorite.route) {   }
     }
 }
@@ -22,4 +24,5 @@ sealed class Screen(val route: String) {
     object Home : Screen("homeScreen")
     object Search : Screen("searchScreen")
     object Favorite : Screen("favoriteScreen")
+    object Details : Screen("detailsScreen")
 }
