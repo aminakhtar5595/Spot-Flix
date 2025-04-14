@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -86,12 +87,17 @@ fun SearchScreen(navController: NavController) {
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(bottom = 15.dp)
                     .border(width = 1.5.dp, color = Color(0xFFE5E8EB)),
                 shape = RoundedCornerShape(10.dp),
                 placeholder = { Text("Search your movie") },
             )
-
-            MovieCard(title = "Little Man Town", rating = "5.8", date = "2022-05-11", image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaBlEMlTddNboEvHUefVn0RkoJSGa0kvIXNQ&s")
+            
+            LazyColumn {
+                items(5) {
+                    MovieCard(title = "Little Man Town", rating = "5.8", date = "2022-05-11", image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaBlEMlTddNboEvHUefVn0RkoJSGa0kvIXNQ&s")
+                }
+            }
         }
     }
 }
@@ -100,7 +106,7 @@ fun SearchScreen(navController: NavController) {
 fun MovieCard(title: String, rating: String, date: String, image: String) {
     Row (
         modifier = Modifier
-            .padding(vertical = 15.dp)
+            .padding(bottom = 15.dp)
             .border(width = 0.2.dp, color = Color.Gray, shape = RoundedCornerShape(10.dp))
             .shadow(elevation = 3.dp, shape = RoundedCornerShape(10.dp))
             .background(color = Color.White, shape = RoundedCornerShape(10.dp))
