@@ -26,6 +26,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -94,20 +95,24 @@ fun SearchScreen(navController: NavController) {
             Row (
                 modifier = Modifier
                     .padding(vertical = 20.dp)
+                    .border(width = 0.2.dp, color = Color.Gray, shape = RoundedCornerShape(10.dp))
+                    .shadow(elevation = 3.dp, shape = RoundedCornerShape(10.dp))
+                    .background(color = Color.White, shape = RoundedCornerShape(10.dp))
+                    .padding(15.dp)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Row (
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     AsyncImage(
-                        model = "https://yt3.googleusercontent.com/K8WVrQAQHTTwsHEtisMYcNai7p7XIlyEAdZg86qYw78ye57r5DRemHQ9Te4PcD_v98HB-ZvQjQ=s900-c-k-c0x00ffffff-no-rj",
+                        model = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaBlEMlTddNboEvHUefVn0RkoJSGa0kvIXNQ&s",
                         contentDescription = "Google Image",
-                        modifier = Modifier.size(80.dp)
+//                        modifier = Modifier.size(80.dp)
                     )
                     Column (
-                        modifier = Modifier.padding(horizontal = 5.dp),
+                        modifier = Modifier.padding(horizontal = 10.dp),
                     ) {
                         Text(
                             text = "Little Man Town", style = TextStyle(fontWeight = FontWeight.SemiBold))
@@ -129,6 +134,7 @@ fun SearchScreen(navController: NavController) {
                                 modifier = Modifier
                                     .clickable {  }
                                     .padding(horizontal = 7.dp, vertical = 5.dp)
+                                ,
                             ) {
                                 Text(
                                     text = "Share",
