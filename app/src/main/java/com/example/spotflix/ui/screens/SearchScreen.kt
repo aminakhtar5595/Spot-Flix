@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,11 +36,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.spotflix.ui.viewmodel.SearchViewModel
+import androidx.compose.foundation.lazy.items
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(navController: NavController) {
+fun SearchScreen(navController: NavController, viewModel: SearchViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     var searchText by remember { mutableStateOf("") }
+    val movies by viewModel.movies.collectAsState()
+
     Column {
         Box(modifier = Modifier
             .background(color = Color(0xFF4F7CCB))
@@ -77,7 +82,12 @@ fun SearchScreen(navController: NavController) {
                     fontSize = 16.sp,
                 ),
                 value = searchText,
-                onValueChange = {  },
+                onValueChange = {
+                    searchText = it
+                    if (searchText.isNotBlank()) {
+                        viewModel.search(searchText)
+                    }
+                },
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent,
                     textColor = Color.Gray,
@@ -92,10 +102,15 @@ fun SearchScreen(navController: NavController) {
                 shape = RoundedCornerShape(10.dp),
                 placeholder = { Text("Search your movie") },
             )
-            
+
             LazyColumn {
-                items(5) {
-                    MovieCard(title = "Little Man Town", rating = "5.8", date = "2022-05-11", image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaBlEMlTddNboEvHUefVn0RkoJSGa0kvIXNQ&s")
+                items(movies) { movie ->
+                    MovieCard(
+                        title = movie.title,
+                        rating = movie.vote_average.toString(),
+                        date = movie.release_date,
+                        image = "https://image.tmdb.org/t/p/w500${movie.poster_path}"
+                    )
                 }
             }
         }
