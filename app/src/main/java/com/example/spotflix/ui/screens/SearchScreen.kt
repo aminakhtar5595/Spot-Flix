@@ -156,9 +156,6 @@ fun MovieCard(title: String, rating: String, date: String, image: String) {
                         )
                     }
                 }
-
-
-
             }
         }
         AsyncImage(
