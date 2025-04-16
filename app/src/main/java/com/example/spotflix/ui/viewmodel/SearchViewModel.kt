@@ -1,4 +1,6 @@
 package com.example.spotflix.ui.viewmodel
+import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.spotflix.ui.api.RetrofitInstance
@@ -11,11 +13,12 @@ class SearchViewModel : ViewModel() {
     private val _movies = MutableStateFlow<List<Movie>>(emptyList())
     val movies: StateFlow<List<Movie>> = _movies
 
-    private val _favoriteMovies = mutableListOf<Movie>()
-    val favoriteMovies: List<Movie> = _favoriteMovies
-
     private val _loading = MutableStateFlow(false)
     val loading: StateFlow<Boolean> = _loading
+
+    private val _favoriteMovies = MutableStateFlow<List<Movie>>(emptyList())
+    val favoriteMovies: StateFlow<List<Movie>> = _favoriteMovies
+
 
     fun search(query: String) {
         viewModelScope.launch {
@@ -33,14 +36,19 @@ class SearchViewModel : ViewModel() {
     }
 
     fun toggleFavorite(movie: Movie) {
-        if (_favoriteMovies.any { it.id == movie.id }) {
-            _favoriteMovies.removeAll { it.id == movie.id }
+        val currentList = _favoriteMovies.value.toMutableList()
+        if (currentList.any { it.id == movie.id }) {
+            currentList.removeAll { it.id == movie.id }
+            Log.d("FAV", "Removed ${movie.title}")
         } else {
-            _favoriteMovies.add(movie)
+            currentList.add(movie)
+            Log.d("FAV", "Added ${movie.title}")
         }
+        _favoriteMovies.value = currentList
     }
 
     fun isFavorite(movie: Movie): Boolean {
-        return _favoriteMovies.any { it.id == movie.id }
+        return _favoriteMovies.value.any { it.id == movie.id }
     }
+
 }

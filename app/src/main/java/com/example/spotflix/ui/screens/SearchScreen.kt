@@ -50,6 +50,7 @@ fun SearchScreen(navController: NavController, viewModel: SearchViewModel = andr
     var searchText by remember { mutableStateOf("") }
     val movies by viewModel.movies.collectAsState()
     val isLoading by viewModel.loading.collectAsState()
+    val favoriteMovies by viewModel.favoriteMovies.collectAsState()
 
     Column {
         Box(modifier = Modifier
@@ -121,7 +122,7 @@ fun SearchScreen(navController: NavController, viewModel: SearchViewModel = andr
                 items(movies) { movie ->
                     MovieCard(
                         movie = movie,
-                        isFavorite = viewModel.isFavorite(movie),
+                        isFavorite = favoriteMovies.any { it.id == movie.id },
                         onFavoriteClick = { viewModel.toggleFavorite(movie) }
                     )
                 }

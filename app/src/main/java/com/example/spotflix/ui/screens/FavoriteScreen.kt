@@ -25,10 +25,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.spotflix.ui.viewmodel.SearchViewModel
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoriteScreen(navController: NavController, viewModel: SearchViewModel = viewModel()) {
-    val favorites = viewModel.favoriteMovies
+    val favorites by viewModel.favoriteMovies.collectAsState()
+
     Column {
         CenterAlignedTopAppBar(
             modifier = Modifier.fillMaxWidth().background(color = Color(0xFF4F7CCB)).padding(horizontal = 15.dp),
@@ -52,9 +56,7 @@ fun FavoriteScreen(navController: NavController, viewModel: SearchViewModel = vi
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color(0xFF4F7CCB))
         )
 
-        LazyColumn(
-            contentPadding = PaddingValues(20.dp)
-        ) {
+        LazyColumn(modifier = Modifier.padding(20.dp)) {
             items(favorites) { movie ->
                 MovieCard(
                     movie = movie,
@@ -63,5 +65,6 @@ fun FavoriteScreen(navController: NavController, viewModel: SearchViewModel = vi
                 )
             }
         }
+
     }
 }
