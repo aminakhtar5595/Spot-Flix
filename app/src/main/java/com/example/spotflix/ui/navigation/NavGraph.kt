@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.spotflix.ui.screens.DetailsScreen
+import com.example.spotflix.ui.screens.FavoriteScreen
 import com.example.spotflix.ui.screens.HomeScreen
 import com.example.spotflix.ui.screens.SearchScreen
 
@@ -15,7 +16,7 @@ fun AppNavGraph(navController: NavHostController) {
         composable(Screen.Home.route) { HomeScreen(navController) }
         composable(Screen.Search.route) { SearchScreen(navController) }
         composable(Screen.Details.route) { DetailsScreen(navController) }
-        composable(Screen.Favorite.route) {   }
+        composable(Screen.Favorite.route) { FavoriteScreen(navController) }
     }
 }
 
