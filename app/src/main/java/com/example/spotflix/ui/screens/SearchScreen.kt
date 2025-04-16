@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -20,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,11 +38,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.spotflix.ui.viewmodel.SearchViewModel
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.ui.layout.ContentScale
+import com.example.spotflix.ui.model.Movie
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(navController: NavController) {
+fun SearchScreen(navController: NavController, viewModel: SearchViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     var searchText by remember { mutableStateOf("") }
+    val movies by viewModel.movies.collectAsState()
+    val isLoading by viewModel.loading.collectAsState()
+    val favoriteMovies by viewModel.favoriteMovies.collectAsState()
+
     Column {
         Box(modifier = Modifier
             .background(color = Color(0xFF4F7CCB))
@@ -77,7 +89,12 @@ fun SearchScreen(navController: NavController) {
                     fontSize = 16.sp,
                 ),
                 value = searchText,
-                onValueChange = {  },
+                onValueChange = {
+                    searchText = it
+                    if (searchText.isNotBlank()) {
+                        viewModel.search(searchText)
+                    }
+                },
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent,
                     textColor = Color.Gray,
@@ -92,25 +109,39 @@ fun SearchScreen(navController: NavController) {
                 shape = RoundedCornerShape(10.dp),
                 placeholder = { Text("Search your movie") },
             )
-            
+
+            if (isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else {
             LazyColumn {
-                items(5) {
-                    MovieCard(title = "Little Man Town", rating = "5.8", date = "2022-05-11", image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaBlEMlTddNboEvHUefVn0RkoJSGa0kvIXNQ&s")
+                items(movies) { movie ->
+                    MovieCard(
+                        movie = movie,
+                        isFavorite = favoriteMovies.any { it.id == movie.id },
+                        onFavoriteClick = { viewModel.toggleFavorite(movie) }
+                    )
                 }
             }
+            }
+
         }
     }
 }
 
 @Composable
-fun MovieCard(title: String, rating: String, date: String, image: String) {
+fun MovieCard(movie: Movie, isFavorite: Boolean, onFavoriteClick: () -> Unit) {
     Row (
         modifier = Modifier
             .padding(bottom = 15.dp)
             .border(width = 0.2.dp, color = Color.Gray, shape = RoundedCornerShape(10.dp))
             .shadow(elevation = 3.dp, shape = RoundedCornerShape(10.dp))
             .background(color = Color.White, shape = RoundedCornerShape(10.dp))
-            .padding(15.dp)
+            .padding(vertical = 10.dp, horizontal = 15.dp)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -119,20 +150,22 @@ fun MovieCard(title: String, rating: String, date: String, image: String) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = image,
+                model = movie.poster_path,
                 contentDescription = "Google Image",
+                modifier = Modifier
+                    .height(100.dp)
+                    .width(60.dp),
+                contentScale = ContentScale.Fit
             )
             Column (
                 modifier = Modifier.padding(horizontal = 10.dp),
             ) {
                 Text(
-                    text = title, style = TextStyle(fontWeight = FontWeight.SemiBold))
+                    text = movie.title, style = TextStyle(fontWeight = FontWeight.SemiBold))
                 Row (
                     modifier = Modifier.padding(vertical = 5.dp)
                 ) {
-                    Text(text = rating, style = TextStyle(fontSize = 13.sp))
-                    Text(text = " | ", style = TextStyle(fontSize = 13.sp))
-                    Text(text = date, style = TextStyle(fontSize = 13.sp))
+                    Text(text = "${movie.vote_average} | ${movie.release_date}", fontSize = 13.sp)
                 }
 
                 Surface(
@@ -159,9 +192,12 @@ fun MovieCard(title: String, rating: String, date: String, image: String) {
             }
         }
         AsyncImage(
-            model = "https://static.vecteezy.com/system/resources/thumbnails/019/040/388/small_2x/red-empty-heart-png.png",
+            model = if (isFavorite) "https://static.vecteezy.com/system/resources/previews/018/842/695/non_2x/red-heart-shape-icon-like-or-love-symbol-for-valentine-s-day-3d-render-illustration-free-png.png"
+            else "https://static.vecteezy.com/system/resources/thumbnails/019/040/388/small_2x/red-empty-heart-png.png",
             contentDescription = "Google Image",
             modifier = Modifier.size(18.dp)
+                .clickable { onFavoriteClick() },
+
         )
     }
 }
