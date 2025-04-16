@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -38,12 +40,15 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.spotflix.ui.viewmodel.SearchViewModel
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.ui.layout.ContentScale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(navController: NavController, viewModel: SearchViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     var searchText by remember { mutableStateOf("") }
     val movies by viewModel.movies.collectAsState()
+    val isLoading by viewModel.loading.collectAsState()
 
     Column {
         Box(modifier = Modifier
@@ -103,6 +108,14 @@ fun SearchScreen(navController: NavController, viewModel: SearchViewModel = andr
                 placeholder = { Text("Search your movie") },
             )
 
+            if (isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else {
             LazyColumn {
                 items(movies) { movie ->
                     MovieCard(
@@ -113,6 +126,8 @@ fun SearchScreen(navController: NavController, viewModel: SearchViewModel = andr
                     )
                 }
             }
+            }
+
         }
     }
 }
@@ -125,7 +140,7 @@ fun MovieCard(title: String, rating: String, date: String, image: String) {
             .border(width = 0.2.dp, color = Color.Gray, shape = RoundedCornerShape(10.dp))
             .shadow(elevation = 3.dp, shape = RoundedCornerShape(10.dp))
             .background(color = Color.White, shape = RoundedCornerShape(10.dp))
-            .padding(15.dp)
+            .padding(vertical = 10.dp, horizontal = 15.dp)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -136,6 +151,10 @@ fun MovieCard(title: String, rating: String, date: String, image: String) {
             AsyncImage(
                 model = image,
                 contentDescription = "Google Image",
+                modifier = Modifier
+                    .height(100.dp)
+                    .width(60.dp),
+                contentScale = ContentScale.Fit
             )
             Column (
                 modifier = Modifier.padding(horizontal = 10.dp),
