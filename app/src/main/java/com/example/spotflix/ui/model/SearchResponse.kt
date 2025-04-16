@@ -5,8 +5,9 @@ data class SearchResponse(
 )
 
 data class Movie(
+    val id: Int,
     val title: String,
-    val vote_average: Double,
+    val vote_average: String,
     val release_date: String,
-    val poster_path: String?
+    val poster_path: String
 )

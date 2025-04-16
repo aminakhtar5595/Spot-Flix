@@ -42,6 +42,7 @@ import com.example.spotflix.ui.viewmodel.SearchViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.layout.ContentScale
+import com.example.spotflix.ui.model.Movie
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -119,10 +120,9 @@ fun SearchScreen(navController: NavController, viewModel: SearchViewModel = andr
             LazyColumn {
                 items(movies) { movie ->
                     MovieCard(
-                        title = movie.title,
-                        rating = movie.vote_average.toString(),
-                        date = movie.release_date,
-                        image = "https://image.tmdb.org/t/p/w500${movie.poster_path}"
+                        movie = movie,
+                        isFavorite = viewModel.isFavorite(movie),
+                        onFavoriteClick = { viewModel.toggleFavorite(movie) }
                     )
                 }
             }
@@ -133,7 +133,7 @@ fun SearchScreen(navController: NavController, viewModel: SearchViewModel = andr
 }
 
 @Composable
-fun MovieCard(title: String, rating: String, date: String, image: String) {
+fun MovieCard(movie: Movie, isFavorite: Boolean, onFavoriteClick: () -> Unit) {
     Row (
         modifier = Modifier
             .padding(bottom = 15.dp)
@@ -149,7 +149,7 @@ fun MovieCard(title: String, rating: String, date: String, image: String) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = image,
+                model = movie.poster_path,
                 contentDescription = "Google Image",
                 modifier = Modifier
                     .height(100.dp)
@@ -160,13 +160,11 @@ fun MovieCard(title: String, rating: String, date: String, image: String) {
                 modifier = Modifier.padding(horizontal = 10.dp),
             ) {
                 Text(
-                    text = title, style = TextStyle(fontWeight = FontWeight.SemiBold))
+                    text = movie.title, style = TextStyle(fontWeight = FontWeight.SemiBold))
                 Row (
                     modifier = Modifier.padding(vertical = 5.dp)
                 ) {
-                    Text(text = rating, style = TextStyle(fontSize = 13.sp))
-                    Text(text = " | ", style = TextStyle(fontSize = 13.sp))
-                    Text(text = date, style = TextStyle(fontSize = 13.sp))
+                    Text(text = "${movie.vote_average} | ${movie.release_date}", fontSize = 13.sp)
                 }
 
                 Surface(
@@ -193,9 +191,12 @@ fun MovieCard(title: String, rating: String, date: String, image: String) {
             }
         }
         AsyncImage(
-            model = "https://static.vecteezy.com/system/resources/thumbnails/019/040/388/small_2x/red-empty-heart-png.png",
+            model = if (isFavorite) "https://static.vecteezy.com/system/resources/previews/018/842/695/non_2x/red-heart-shape-icon-like-or-love-symbol-for-valentine-s-day-3d-render-illustration-free-png.png"
+            else "https://static.vecteezy.com/system/resources/thumbnails/019/040/388/small_2x/red-empty-heart-png.png",
             contentDescription = "Google Image",
             modifier = Modifier.size(18.dp)
+                .clickable { onFavoriteClick() },
+
         )
     }
 }

@@ -1,5 +1,4 @@
 package com.example.spotflix.ui.viewmodel
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.spotflix.ui.api.RetrofitInstance
@@ -11,6 +10,9 @@ import kotlinx.coroutines.launch
 class SearchViewModel : ViewModel() {
     private val _movies = MutableStateFlow<List<Movie>>(emptyList())
     val movies: StateFlow<List<Movie>> = _movies
+
+    private val _favoriteMovies = mutableListOf<Movie>()
+    val favoriteMovies: List<Movie> = _favoriteMovies
 
     private val _loading = MutableStateFlow(false)
     val loading: StateFlow<Boolean> = _loading
@@ -28,5 +30,17 @@ class SearchViewModel : ViewModel() {
                 _loading.value = false
             }
         }
+    }
+
+    fun toggleFavorite(movie: Movie) {
+        if (_favoriteMovies.any { it.id == movie.id }) {
+            _favoriteMovies.removeAll { it.id == movie.id }
+        } else {
+            _favoriteMovies.add(movie)
+        }
+    }
+
+    fun isFavorite(movie: Movie): Boolean {
+        return _favoriteMovies.any { it.id == movie.id }
     }
 }

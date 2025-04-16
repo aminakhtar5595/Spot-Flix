@@ -21,11 +21,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-
+import com.example.spotflix.ui.viewmodel.SearchViewModel
+import androidx.compose.foundation.lazy.items
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoriteScreen(navController: NavController) {
+fun FavoriteScreen(navController: NavController, viewModel: SearchViewModel = viewModel()) {
+    val favorites = viewModel.favoriteMovies
     Column {
         CenterAlignedTopAppBar(
             modifier = Modifier.fillMaxWidth().background(color = Color(0xFF4F7CCB)).padding(horizontal = 15.dp),
@@ -52,12 +55,11 @@ fun FavoriteScreen(navController: NavController) {
         LazyColumn(
             contentPadding = PaddingValues(20.dp)
         ) {
-            items(5) {
+            items(favorites) { movie ->
                 MovieCard(
-                    title = "Little Man Town",
-                    rating = "5.8",
-                    date = "2022-05-11",
-                    image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaBlEMlTddNboEvHUefVn0RkoJSGa0kvIXNQ&s"
+                    movie = movie,
+                    isFavorite = true,
+                    onFavoriteClick = { viewModel.toggleFavorite(movie) }
                 )
             }
         }
