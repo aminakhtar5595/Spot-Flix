@@ -2,7 +2,6 @@ package com.example.spotflix.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -61,7 +60,8 @@ fun FavoriteScreen(navController: NavController, viewModel: SearchViewModel = vi
                 MovieCard(
                     movie = movie,
                     isFavorite = true,
-                    onFavoriteClick = { viewModel.toggleFavorite(movie) }
+                    onFavoriteClick = { viewModel.toggleFavorite(movie) },
+                    onClick = { navController.navigate("detailsScreen/${movie.id}") }
                 )
             }
         }

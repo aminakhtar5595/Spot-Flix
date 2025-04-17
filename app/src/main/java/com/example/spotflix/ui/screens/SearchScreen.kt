@@ -123,7 +123,8 @@ fun SearchScreen(navController: NavController, viewModel: SearchViewModel = andr
                     MovieCard(
                         movie = movie,
                         isFavorite = favoriteMovies.any { it.id == movie.id },
-                        onFavoriteClick = { viewModel.toggleFavorite(movie) }
+                        onFavoriteClick = { viewModel.toggleFavorite(movie) },
+                        onClick = { navController.navigate("detailsScreen/${movie.id}") }
                     )
                 }
             }
@@ -134,7 +135,7 @@ fun SearchScreen(navController: NavController, viewModel: SearchViewModel = andr
 }
 
 @Composable
-fun MovieCard(movie: Movie, isFavorite: Boolean, onFavoriteClick: () -> Unit) {
+fun MovieCard(movie: Movie, isFavorite: Boolean, onFavoriteClick: () -> Unit, onClick: () -> Unit) {
     Row (
         modifier = Modifier
             .padding(bottom = 15.dp)
@@ -142,7 +143,8 @@ fun MovieCard(movie: Movie, isFavorite: Boolean, onFavoriteClick: () -> Unit) {
             .shadow(elevation = 3.dp, shape = RoundedCornerShape(10.dp))
             .background(color = Color.White, shape = RoundedCornerShape(10.dp))
             .padding(vertical = 10.dp, horizontal = 15.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onClick() },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -150,7 +152,7 @@ fun MovieCard(movie: Movie, isFavorite: Boolean, onFavoriteClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = movie.poster_path,
+                model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
                 contentDescription = "Google Image",
                 modifier = Modifier
                     .height(100.dp)

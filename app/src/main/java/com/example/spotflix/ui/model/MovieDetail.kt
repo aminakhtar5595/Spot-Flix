@@ -6,7 +6,7 @@ data class MovieDetail(
     val overview: String,
     val poster_path: String,
     val release_date: String,
-    val vote_average: Double,
+    val vote_average: String,
     val genres: List<Genre>
 )
 

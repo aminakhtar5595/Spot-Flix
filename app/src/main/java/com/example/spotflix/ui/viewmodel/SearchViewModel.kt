@@ -1,6 +1,5 @@
 package com.example.spotflix.ui.viewmodel
 import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.spotflix.ui.api.RetrofitInstance
