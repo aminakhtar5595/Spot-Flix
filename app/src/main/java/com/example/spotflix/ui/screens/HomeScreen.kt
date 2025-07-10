@@ -4,87 +4,89 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotflix.ui.navigation.Screen
+import com.example.spotflix.ui.theme.Blue
+import com.example.spotflix.ui.theme.Red
 
 @Composable
 fun HomeScreen(navController: NavController) {
     Column {
         Text(
-            text = "Welcome Home",
-            style = TextStyle(
-                textAlign = TextAlign.Center,
-                fontSize = 20.sp,
+            "Welcome Home",
+            style = MaterialTheme.typography.titleLarge.copy(
                 color = Color.White,
+                textAlign = TextAlign.Center,
                 fontWeight = FontWeight.SemiBold
             ),
             modifier = Modifier
-                .background(color = Color(0xFF4F7CCB))
+                .background(color = Blue)
                 .fillMaxWidth()
                 .padding(20.dp)
         )
 
         Column(
-            modifier = Modifier
-                .padding(horizontal = 15.dp).fillMaxSize(),
+            modifier = Modifier.padding(horizontal = 15.dp).fillMaxSize(),
             verticalArrangement = Arrangement.Center
         ) {
-        Button(
-            onClick = { navController.navigate(Screen.Search.route) },
-            shape = RoundedCornerShape(10.dp),
-            contentPadding = PaddingValues(vertical = 15.dp),
-            border = BorderStroke(1.5.dp, Color(0xFFe95f25)),
-            colors = ButtonDefaults.buttonColors(
-                contentColor = Color(0xFFe95f25),
-                containerColor = Color.Transparent
-            ),
-            modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)
-        ) {
-            Text(
+            OutlinedButton(
                 text = "Search Movies",
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.W500
-                )
+                color = Red,
+                onClick = { navController.navigate(Screen.Search.route) }
             )
-        }
 
-            Button(
-                onClick = { navController.navigate(Screen.Favorite.route) },
-                shape = RoundedCornerShape(10.dp),
-                contentPadding = PaddingValues(vertical = 15.dp),
-                border = BorderStroke(1.5.dp, Color(0xFF4F7CCB)),
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = Color(0xFF4F7CCB),
-                    containerColor = Color.Transparent
-                ),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = "Favorite Movies",
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.W500
-                    )
-                )
-            }
+            Spacer(Modifier.height(20.dp))
+
+            OutlinedButton(
+                text = "Favorite Movies",
+                color = Blue,
+                onClick = { navController.navigate(Screen.Favorite.route) }
+            )
 
         }
+    }
+}
 
+@Composable
+fun OutlinedButton(
+    text: String,
+    color: Color,
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = onClick,
+        shape = RoundedCornerShape(10.dp),
+        contentPadding = PaddingValues(vertical = 15.dp),
+        border = BorderStroke(1.5.dp, color),
+        colors = ButtonDefaults.buttonColors(
+            contentColor = color,
+            containerColor = Color.Transparent
+        ),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text,
+            style = MaterialTheme.typography.titleLarge.copy(
+                fontWeight = FontWeight.W500,
+                fontSize = 18.sp,
+            )
+        )
     }
 }
