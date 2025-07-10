@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,20 +22,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotflix.ui.navigation.Screen
+import com.example.spotflix.ui.theme.Blue
 
 @Composable
 fun HomeScreen(navController: NavController) {
     Column {
         Text(
-            text = "Welcome Home",
-            style = TextStyle(
-                textAlign = TextAlign.Center,
-                fontSize = 20.sp,
+            "Welcome Home",
+            style = MaterialTheme.typography.titleLarge.copy(
                 color = Color.White,
+                textAlign = TextAlign.Center,
                 fontWeight = FontWeight.SemiBold
             ),
             modifier = Modifier
-                .background(color = Color(0xFF4F7CCB))
+                .background(color = Blue)
                 .fillMaxWidth()
                 .padding(20.dp)
         )
