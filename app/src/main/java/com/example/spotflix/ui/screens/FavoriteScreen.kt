@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.example.spotflix.ui.components.Header
+import com.example.spotflix.ui.components.MovieCard
 
 @Composable
 fun FavoriteScreen(navController: NavController, viewModel: SearchViewModel = viewModel()) {
