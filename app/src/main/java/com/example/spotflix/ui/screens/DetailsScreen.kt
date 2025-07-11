@@ -32,13 +32,16 @@ fun DetailsScreen(movieId: Int, navController: NavController, viewModel: MovieDe
     }
     
     Column {
+        // Header
         Header(title = "Movie Info", navController = { navController.popBackStack() })
 
         if (isLoading) {
+            // Loader
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
         } else {
+            // Show movie detail
             movie?.let {
                 Column (
                     modifier = Modifier
