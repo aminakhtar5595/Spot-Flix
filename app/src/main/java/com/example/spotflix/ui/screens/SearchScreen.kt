@@ -38,8 +38,10 @@ fun SearchScreen(navController: NavController, viewModel: SearchViewModel = andr
     val favoriteMovies by viewModel.favoriteMovies.collectAsState()
 
     Column {
+        // Header
         Header(title = "Find Movies", navController = { navController.popBackStack() })
 
+        // Search textinput input
         Column(
             modifier = Modifier.padding(20.dp)
         ) {

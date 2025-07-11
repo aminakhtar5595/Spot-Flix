@@ -29,6 +29,7 @@ import com.example.spotflix.ui.theme.Red
 @Composable
 fun HomeScreen(navController: NavController) {
     Column {
+        // Header
         Text(
             "Welcome Home",
             style = MaterialTheme.typography.titleLarge.copy(
@@ -42,6 +43,7 @@ fun HomeScreen(navController: NavController) {
                 .padding(20.dp)
         )
 
+//        Home button
         Column(
             modifier = Modifier.padding(horizontal = 15.dp).fillMaxSize(),
             verticalArrangement = Arrangement.Center

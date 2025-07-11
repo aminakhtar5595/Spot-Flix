@@ -47,7 +47,7 @@ fun MovieCard(movie: Movie, isFavorite: Boolean, onFavoriteClick: () -> Unit, on
         ) {
             AsyncImage(
                 model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
-                contentDescription = "Google Image",
+                contentDescription = "Poster of ${movie.title}",
                 modifier = Modifier
                     .height(100.dp)
                     .width(60.dp),

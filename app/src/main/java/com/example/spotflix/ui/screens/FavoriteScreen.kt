@@ -19,8 +19,10 @@ fun FavoriteScreen(navController: NavController, viewModel: SearchViewModel = vi
     val favorites by viewModel.favoriteMovies.collectAsState()
 
     Column {
+        // Header
         Header(title = "Your Favorites", navController = { navController.popBackStack() })
 
+        // Favorite movies list
         LazyColumn(modifier = Modifier.padding(20.dp)) {
             items(favorites) { movie ->
                 MovieCard(
