@@ -1,5 +1,4 @@
 package com.example.spotflix.ui.viewmodel
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.spotflix.ui.api.RetrofitInstance
@@ -38,16 +37,18 @@ class SearchViewModel : ViewModel() {
         val currentList = _favoriteMovies.value.toMutableList()
         if (currentList.any { it.id == movie.id }) {
             currentList.removeAll { it.id == movie.id }
-            Log.d("FAV", "Removed ${movie.title}")
         } else {
             currentList.add(movie)
-            Log.d("FAV", "Added ${movie.title}")
         }
         _favoriteMovies.value = currentList
     }
 
     fun isFavorite(movie: Movie): Boolean {
         return _favoriteMovies.value.any { it.id == movie.id }
+    }
+
+    fun clearSearch() {
+        _movies.value = emptyList()
     }
 
 }

@@ -26,16 +26,22 @@ import androidx.navigation.NavController
 import com.example.spotflix.ui.viewmodel.SearchViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.LaunchedEffect
 import com.example.spotflix.ui.components.Header
 import com.example.spotflix.ui.components.MovieCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(navController: NavController, viewModel: SearchViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun SearchScreen(navController: NavController, viewModel: SearchViewModel) {
     var searchText by remember { mutableStateOf("") }
     val movies by viewModel.movies.collectAsState()
     val isLoading by viewModel.loading.collectAsState()
     val favoriteMovies by viewModel.favoriteMovies.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.clearSearch()
+        searchText = ""
+    }
 
     Column {
         // Header
