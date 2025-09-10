@@ -27,4 +27,4 @@ Search for movies, explore details, and save your favorites — all in one place
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/spotflix.git
+   git clone https://github.com/aminakhtar5595/Spot-Flix.git
